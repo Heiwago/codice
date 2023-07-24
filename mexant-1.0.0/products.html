@@ -1,0 +1,786 @@
+<!DOCTYPE html>
+<html lang="pt">
+
+  <head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+    <title>Livraria Códice</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Additional CSS Files -->
+    <link rel="stylesheet" href="assets/css/fontawesome.css">
+    <link rel="stylesheet" href="assets/css/template.css">
+    <link rel="stylesheet" href="assets/css/owl.css">
+    <link rel="stylesheet" href="assets/css/animate.css">
+    <link rel="stylesheet" href="https://unpkg.com/swiper@7/swiper-bundle.min.css">
+
+    <!-- Favcon -->
+    <!-- Favicon padrão -->
+<link rel="icon" href="assets/images/logo (2).png" type="image/x-icon">
+
+<!-- Favicon para dispositivos iOS (iPhone, iPad) -->
+<link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+
+<!-- Favicon para dispositivos Android -->
+<link rel="icon" type="image/png" sizes="192x192" href="android-chrome-192x192.png">
+<link rel="icon" type="image/png" sizes="512x512" href="android-chrome-512x512.png">
+
+<title>Vitrine de Produtos</title>
+<style>
+
+  .menu {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+  }
+  .menu a {
+    margin: 0 10px;
+    text-decoration: none;
+    color: #000;
+    font-weight: bold;
+  }
+  .produto {
+    display: none;
+  }
+  .produto.mostrando {
+    display: inline-block;
+  }
+  .livro-fisico {
+    display: inline-block;
+    margin: 10px;
+    width: 200px;
+    text-align: center;
+  }
+  
+  .ebook {
+    display: inline-block;
+    margin: 10px;
+    width: 200px;
+    text-align: center;
+  }
+  .produto img {
+    width: 150px;
+    height: 315px;
+    object-fit: cover;
+  }
+  .produto .titulo {
+    font-weight: bold;
+    margin-top: 5px;
+  }
+  .produto .preco {
+    margin-top: 5px;
+  }
+  .produto .comprar {
+    display: block;
+    margin-top: 10px;
+    padding: 5px 10px;
+    background-color: #532b66;
+    color: white;
+    text-decoration: none;
+    border-radius: 4px;
+  }
+  .gradient-border {
+  cursor: pointer;
+}
+
+.botao-pix,
+.botao-pagseguro {
+  display: inline-block;
+  margin-top: 10px;
+  padding: 5px 10px;
+  background-color: #532b66;
+  color: white;
+  text-decoration: none;
+  border-radius: 4px;
+}
+
+.botao-pagseguro {
+  background-color: #a15dc1;
+  margin-left: 10px;
+}
+
+.titulo {
+  font-size: 14px;
+  font-weight: bold;
+  color: #333;
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+.autor {
+  font-size: 10px;
+  color: #777;
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+.preco {
+  font-size: 15px;
+  font-weight: bold;
+  color: #532b66;
+  text-align: center;
+}
+p.small {
+  line-height: 0.5;
+}
+</style>
+<style>
+  /* Adicione o CSS para remover o espaço extra após o footer */
+  body {
+    margin: 0;
+    padding: 0;
+  }
+  footer {
+    margin-top: 0;
+  }
+  /* Resto do CSS... */
+</style>
+
+<style>
+.livro-fisico {
+  position: relative;
+  display: inline-block;
+}
+
+.imagem-livro {
+  position: relative;
+  cursor: pointer;
+}
+
+.detalhes-botao {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: rgba(0, 0, 0, 0.5);
+  color: #fff;
+  padding: 8px 16px;
+  border-radius: 4px;
+  display: none;
+}
+
+.imagem-livro:hover .detalhes-botao {
+  display: block;
+}
+
+.detalhes-popup {
+  display: none;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  padding: 20px;
+  background-color: #fff;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  max-width: 600px;
+  width: 80%;
+  z-index: 9999;
+}
+
+.titulo-popup {
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.sinopse-popup,
+.dados-tecnicos-popup {
+  margin-bottom: 10px;
+}
+
+.fechar {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  font-size: 20px;
+  cursor: pointer;
+}
+
+.botao-pagseguro {
+  display: block;
+  margin-top: 10px;
+  padding: 10px 20px;
+  background-color: #007bff;
+  color: #fff;
+  text-align: center;
+  text-decoration: none;
+  border-radius: 4px;
+}
+
+</style>
+
+<style>
+
+/* Estilos gerais */
+
+body {
+  margin: 0;
+  padding: 0;
+}
+
+.overlay {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 9998;
+}
+
+/* Estilos dos elementos do popup */
+
+.detalhes-popup {
+  display: none;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  padding: 20px;
+  background-color: #f2f2f2;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  max-width: 1000px;
+  width: 80%;
+  z-index: 9999;
+  overflow: hidden;
+  transition: opacity 1s ease; /* Adicionamos a transição apenas para a classe que mostra suavemente */
+}
+
+/* Nova classe para mostrar o popup de forma suave */
+.mostrar-suavemente {
+  display: block;
+  opacity: 1;
+  transition: opacity 1s ease;
+}
+
+.detalhes-popup::after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+.imagem-livro-popup {
+  float: left;
+  margin-right: 20px;
+}
+
+.imagem-livro-popup img {
+  width: 200px; /* Ajuste o tamanho da imagem aqui */
+  height: auto;
+}
+
+.detalhes-botao {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: rgba(0, 0, 0, 0.5);
+  color: #fff;
+  padding: 8px 16px;
+  border-radius: 4px;
+  display: none;
+}
+
+.imagem-livro:hover .detalhes-botao {
+  display: block;
+}
+
+/* Estilos do botão dentro do popup */
+
+.detalhes-popup .botao-pagseguro {
+  display: block;
+  margin-top: 5px; /* Adicione um espaçamento superior para descer o botão */
+  padding: 10px 20px;
+  background-color: #A15DC1;
+  color: #fff;
+  text-align: center;
+  text-decoration: none;
+  border-radius: 4px;
+  float: right; /* Alinhe o botão à direita */
+}
+
+.titulo-popup {
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 10px;
+  text-align: left; /* Alinha o título à esquerda */
+}
+
+.sinopse-popup,
+.dados-tecnicos-popup {
+  margin-bottom: 10px;
+  text-align: left; /* Alinha o texto à esquerda */
+}
+
+.dados-tecnicos-popup {
+  padding: -1px 20px;
+  font-weight: bold;
+  float: left; /* Adicione esta propriedade para alinhar à esquerda */
+}
+
+.preco-popup {
+  font-size: 20px;
+  font-weight: bold;
+  color: #532b66;
+  /* Ajuste o valor para diminuir o espaço */
+  text-align: right;
+  margin-left: 10px;
+  padding: 10px 20px;
+}
+
+.botao-pagseguro {
+  display: block;
+   /* Espaçamento superior */
+  padding: 10px 20px;
+  background-color: #A15DC1;
+  color: #fff;
+  text-align: center;
+  text-decoration: none;
+  border-radius: 4px;
+  float: right; /* Alinhe o botão à direita */
+}
+
+.preco {
+  font-size: 20px;
+  font-weight: bold;
+  color: #532b66;
+  margin-bottom: 1px; /* Ajuste o valor para diminuir o espaço */
+  text-align: right;
+  
+}
+
+
+</style>
+
+</head>
+<body>
+ 
+  <!-- ***** Header Area Start ***** -->
+  <header class="header-area header-sticky">
+      <div class="container">
+          <div class="row">
+              <div class="col-12">
+                  <nav class="main-nav">
+                      <!-- ***** Logo Start ***** -->
+                      <a href="index.html" class="logo">
+                          <img src="assets/images/logo.png" alt="">
+                      </a>
+                      <!-- ***** Logo End ***** -->
+                      <!-- ***** Menu Start ***** -->
+                      <ul class="nav">
+                        <li class="scroll-to-section"><a href="index.html" class="active">Inicio</a></li>
+                        <li class="scroll-to-section"><a href="index.html">Serviços</a></li>
+                        <li class="scroll-to-section"><a href="index.html">Produção</a></li>
+                        <!--<li class="scroll-to-section"><a href="#testimonials">Depoimentos</a></li>-->
+                        <li><a href="products.html">Loja</a></li>
+                        <li class="has-sub">
+                            <a href="javascript:void(0)">Outros</a>
+                            <ul class="sub-menu">
+                                <li><a href="about-us.html">Sobre nós</a></li>
+                                <li><a href="our-services.html">Outros Serviços</a></li>
+                                <li><a href="contact-us.html">Contato</a></li>
+                            </ul>
+                        </li>
+
+                        <li><a href="https://api.whatsapp.com/send?phone=5515997030639">Contratar Agora</a></li> 
+                      </ul>        
+                      <a class='menu-trigger'>
+                          <span>Menu</span>
+                      </a>
+                      <!-- ***** Menu End ***** -->
+                  </nav>
+              </div>
+          </div>
+      </div>
+  </header>
+  <!-- ***** Header Area End ***** -->
+  
+  <div class="page-heading">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-12">
+          <div class="header-text">
+            <h2>Livraria Códice</h2>
+            <div class="div-dec"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+ <section class="about-us" id="about">
+<div class="col-lg-12 text-center"> <!-- Adicionado "text-center" para centralizar o menu -->
+          <div class="naccs">
+            <div class="tabs">
+              <div class="row align-items-center">
+                <div class="col-lg-12"> <!-- Removido o ponto "." antes de "col-lg-" -->
+                  <div class="menu">
+                          <div class="active gradient-border"><span>Livros Físicos</span></div>
+                          <div class="gradient-border"><span>Livros E-Book</span></div>
+                  </div>
+                  </div>
+                          <div class="col-lg-12"> <!-- Removido o ponto "." antes de "col-lg-" -->
+                          <ul class="nacc">
+                          <li class="active">
+                          <div>
+                          <div class="main-list">
+                          <span class="title">Físico</span>
+                          </div>
+                          <div class="livro-fisico">
+                          <div class="imagem-livro">
+                            <!---->
+<img src="assets/images/bia.png" alt="Bia quer ser fada - Josy Souza">
+<div class="detalhes-botao" onclick="abrirPopup('assets/images/bia.png', 
+'Bia quer ser fada - Josy Souza', 
+'“O que você quer ser quando crescer?” Bia tinha a resposta na ponta da língua quando a professora fez a pergunta para toda sala de aula. Era claro para ela: queria ser fada. No entanto, como fazer isso quando todos os colegas riem e insistem que esses seres cheios de encanto não existem? Após ganhar um presente especial, Bia vai descobrir que as fadas têm uma missão muito importante e que a magia pode estar escondida por trás de uma simples atitude. Basta procurar', 
+'Número de Páginas: 20 | ISBN: 978-6598064112 | Tamanho: 14x21',
+'R$ 19,90',
+'https://pag.ae/7ZB9RbphL',)">Mostrar detalhes do livro</div>
+</div>
+<div class="informacoes-livro">
+<p class="small">⠀⠀⠀⠀⠀⠀⠀⠀⠀</p>
+<div class="titulo">Bia quer ser fada</div>
+<div class="autor">Josy Souza</div>
+<p class="small">⠀⠀⠀⠀⠀⠀⠀⠀⠀</p><p class="small">⠀⠀⠀⠀⠀⠀⠀⠀⠀</p><p class="small">⠀⠀⠀⠀⠀⠀⠀⠀⠀</p><p class="small">⠀⠀⠀⠀⠀⠀⠀⠀⠀</p>
+<div class="preco">R$ 19,90</div>
+<a href="https://pag.ae/7ZB9RbphL" class="botao-pagseguro" target="_blank">Comprar</a>
+</div>
+</div>
+<div class="overlay" onclick="fecharPopup()"></div>
+<div class="detalhes-popup" id="popup">
+<div class="fechar" onclick="fecharPopup()">&#10006;</div>
+<div class="imagem-livro-popup">
+<img src="" alt="Livro Físico 1" id="imagem-livro">
+</div>
+<div class="informacoes-livro-popup">
+<div class="titulo-popup" id="titulo-livro"></div>
+<div class="sinopse-popup" id="sinopse-livro"></div>
+<div class="dados-tecnicos-popup" id="dados-tecnicos-livro"></div>
+</div>
+<div class="preco-popup" id="preco-livro">
+R$ 0,00
+<br>
+<a href="#" class="botao-pagseguro" target="_blank">Comprar</a>
+</div>
+</div>
+
+<!--PRÓXIMO LIVRO--> <!--PRÓXIMO LIVRO--> <!--PRÓXIMO LIVRO--> <!--PRÓXIMO LIVRO--> <!--PRÓXIMO LIVRO--> 
+<!--PRÓXIMO LIVRO--> <!--PRÓXIMO LIVRO--> <!--PRÓXIMO LIVRO--> <!--PRÓXIMO LIVRO--> <!--PRÓXIMO LIVRO--> 
+<!--PRÓXIMO LIVRO--> <!--PRÓXIMO LIVRO--> <!--PRÓXIMO LIVRO--> <!--PRÓXIMO LIVRO--> <!--PRÓXIMO LIVRO--> 
+
+<div class="livro-fisico">
+<div class="imagem-livro">
+<img src="assets/images/dhammapada.png" alt="Dhammapada - Emerson Pawoski">
+<div class="detalhes-botao" onclick="abrirPopup('assets/images/dhammapada.png', 
+'Dhammapada, as pegadas no caminho Budista - Emerson Pawoski', 
+'O Dhammapada é um dos principais e mais antigos escritos budistas. Surgindo no séc, III a.C. como uma tradição oral ritmada, seu objetivo era tornar acessível a filosofia budista a todas as pessoas. Muitas preocupações antigas são semelhantes às da atualidade, pois o Buda, em sua sabedoria, conseguiu compreender como nossa mente funciona sob estresse e ansiedade. Seus temas abrangem desde a vida familiar até a vida religiosa, desde o nascimento até a morte, da mentira à verdade, do momento à eternidade. Uma leitura de auxílio quando se precisa de orientações de quem já percorreu o caminho que leva ao fim do sofrimento.', 
+'Número de Páginas: 48 | ISBN: 978-6598064105 | Tamanho: 11x18',
+'R$ 21,90',
+'https://pag.ae/7ZB9S6vS3',)">Mostrar detalhes do livro</div>
+</div>
+<div class="informacoes-livro">
+<p class="small">⠀⠀⠀⠀⠀⠀⠀⠀⠀</p>
+<div class="titulo">Dhammapada, as pegadas no caminho Budista</div>
+<div class="autor">Emerson Pawoski</div>
+<p class="small">⠀⠀⠀⠀⠀⠀⠀⠀⠀</p>
+<div class="preco">R$ 21,90</div>
+<a href="https://pag.ae/7ZB9S6vS3" class="botao-pagseguro" target="_blank">Comprar</a>
+</div>
+</div>
+
+<div class="overlay" onclick="fecharPopup()"></div>
+<div class="detalhes-popup" id="popup">
+<div class="fechar" onclick="fecharPopup()">&#10006;</div>
+<div class="imagem-livro-popup">
+<img src="" alt="Livro Físico 1" id="imagem-livro">
+</div>
+<div class="informacoes-livro-popup">
+<div class="titulo-popup" id="titulo-livro"></div>
+<div class="sinopse-popup" id="sinopse-livro"></div>
+<div class="dados-tecnicos-popup" id="dados-tecnicos-livro"></div>
+</div>
+<div class="preco-popup" id="preco-livro">
+R$ 0,00
+<br>
+<a href="#" class="botao-pagseguro" target="_blank">Comprar</a>
+</div>
+</div>
+
+<!--PRÓXIMO LIVRO--> <!--PRÓXIMO LIVRO--> <!--PRÓXIMO LIVRO--> <!--PRÓXIMO LIVRO--> <!--PRÓXIMO LIVRO--> 
+<!--PRÓXIMO LIVRO--> <!--PRÓXIMO LIVRO--> <!--PRÓXIMO LIVRO--> <!--PRÓXIMO LIVRO--> <!--PRÓXIMO LIVRO--> 
+<!--PRÓXIMO LIVRO--> <!--PRÓXIMO LIVRO--> <!--PRÓXIMO LIVRO--> <!--PRÓXIMO LIVRO--> <!--PRÓXIMO LIVRO--> 
+
+ <div class="livro-fisico">
+<div class="imagem-livro">
+<img src="assets/images/patrulheiro.png" alt="Conspiração em Literária: O Patrulheiro Literário - Vinícius Lima Costa">
+<div class="detalhes-botao" onclick="abrirPopup('assets/images/patrulheiro.png', 
+'Conspiração em Literária: O Patrulheiro Literário - Vinícius Lima Costa', 
+'Todos os escritores permanecem vivos em suas obras para além de sua existência, mas será que eles vão para algum lugar após deixarem o nosso mundo? A cada quatro meses, um navio atraca no porto de Bela Leitura e dele desembarcam as mentes criativas por trás das histórias que permeiam nosso imaginário desde o início dos tempos. Com exceção de uma rusga entre vizinhos, afinal Sir Arthur Conan Doyle e Maurice Leblanc talvez nunca cheguem a uma trégua, e algumas festas que saem do controle no bairro do Terror, a paz aparentemente impera nesse universo fantástico, até que uma ameaça surge disposta a destruir o lugar e toda a preciosa literatura produzida por seus habitantes. Quando várias tentativas de combater o mal que se aproxima se mostram infrutíferas, caberá a Arquimedes, um bibliotecário um pouco nerd, muito fã dos Beatles e dono de uma mente singular, salvar a todos nessa aventura com pitadas de mistério e ficção cientifica.', 
+'Número de Páginas: 370 | ISBN: 978-6599752681 | Tamanho: 16x23',
+'R$ 46,90',
+'https://pag.ae/7ZB9U6V4q',)">Mostrar detalhes do livro</div>
+</div>
+<div class="informacoes-livro">
+<p class="small">⠀⠀⠀⠀⠀⠀⠀⠀⠀</p>
+<div class="titulo">Conspiração em Literária: O Patrulheiro Literário</div>
+<div class="autor">Vinícius Lima Costa</div>
+<p class="small">⠀⠀⠀⠀⠀⠀⠀⠀⠀</p>
+<div class="preco">R$ 46,90</div>
+<a href="https://pag.ae/7ZB9U6V4q" class="botao-pagseguro" target="_blank">Comprar</a>
+</div>
+</div>
+                        
+<div class="detalhes-popup" id="popup">
+<div class="fechar" onclick="fecharPopup()">&#10006;</div>
+<div class="imagem-livro-popup">
+<img src="" alt="Livro Físico 1" id="imagem-livro">
+</div>
+<div class="informacoes-livro-popup">
+<div class="titulo-popup" id="titulo-livro"></div>
+<div class="sinopse-popup" id="sinopse-livro"></div>
+<div class="dados-tecnicos-popup" id="dados-tecnicos-livro"></div>
+</div>
+<div class="preco-popup" id="preco-livro">
+R$ 0,00
+<br>
+<a href="#" class="botao-pagseguro" target="_blank">Comprar</a>
+</div>
+</div>
+
+<!--PRÓXIMO LIVRO--> <!--PRÓXIMO LIVRO--> <!--PRÓXIMO LIVRO--> <!--PRÓXIMO LIVRO--> <!--PRÓXIMO LIVRO--> 
+<!--PRÓXIMO LIVRO--> <!--PRÓXIMO LIVRO--> <!--PRÓXIMO LIVRO--> <!--PRÓXIMO LIVRO--> <!--PRÓXIMO LIVRO--> 
+<!--PRÓXIMO LIVRO--> <!--PRÓXIMO LIVRO--> <!--PRÓXIMO LIVRO--> <!--PRÓXIMO LIVRO--> <!--PRÓXIMO LIVRO--> 
+
+<div class="livro-fisico">
+<div class="imagem-livro">
+<img src="assets/images/segredos.png" alt="Livro Físico 1">
+<div class="detalhes-botao" onclick="abrirPopup('assets/images/segredos.png', 
+'Segredos, Sussurros e Escarros - Carlos Nunes', 
+'Quando se viu em completa ruína, de uma vida desregrada e propensa à autodestruição, recebeu o convite para reunir seus escritos perdidos, extraviados no tempo e no espaço de sua sala bagunçada. Aceitou, então, o convite, e deste surge este volume, um compilado de poemas que retratam as mágoas, dramas, pensamentos, conflitos, segredos, sussurros e também os escarros que antes estavam guardados na “Caixa de Pandora” de sua mente. Uma antologia poética que abrange desde o sentimento de amor profundo até a mais dolorosa ferida da alma. Com uma forma e estilo de escrita peculiares, Segredos, Sussurros e Escarros levará você ao cerne do sentimento humano, seja para o bem ou para o mal, abrindo as portas do inconsciente do leitor e levando-o ao limite do pensar e do sentir.', 
+'Número de Páginas: 148 | ISBN 978-6599752674 | Tamanho: 14x21',
+'R$ 39,90',
+'https://www.amazon.com.br/Segredos-Sussurros-Escarros-Carlos-Nunes/dp/6599752675/ref=tmm_other_meta_binding_swatch_0?_encoding=UTF8&qid=1689727041&sr=8-1',)">Mostrar detalhes do livro</div>
+</div>
+<div class="informacoes-livro">
+<p class="small">⠀⠀⠀⠀⠀⠀⠀⠀⠀</p>
+<div class="titulo">Segredos, Sussurros e Escarros</div>
+<div class="autor">Carlos Nunes</div>
+<p class="small">⠀⠀⠀⠀⠀⠀⠀⠀⠀</p>
+<div class="preco">R$ 39,90</div>
+<a href="https://www.amazon.com.br/Segredos-Sussurros-Escarros-Carlos-Nunes/dp/6599752675/ref=tmm_other_meta_binding_swatch_0?_encoding=UTF8&qid=1689727041&sr=8-1" class="botao-pagseguro" target="_blank">Comprar</a>
+</div>
+</div>
+                        
+<div class="detalhes-popup" id="popup">
+<div class="fechar" onclick="fecharPopup()">&#10006;</div>
+<div class="imagem-livro-popup">
+<img src="" alt="Livro Físico 1" id="imagem-livro">
+</div>
+<div class="informacoes-livro-popup">
+<div class="titulo-popup" id="titulo-livro"></div>
+<div class="sinopse-popup" id="sinopse-livro"></div>
+<div class="dados-tecnicos-popup" id="dados-tecnicos-livro"></div>
+</div>
+<div class="preco-popup" id="preco-livro">
+R$ 0,00
+<br>
+<a href="#" class="botao-pagseguro" target="_blank">Comprar</a>
+</div>
+</div>
+
+<!-- FIM DA LISTA DE LIVRO FÍSICO --> <!-- FIM DA LISTA DE LIVRO FÍSICO --> <!-- FIM DA LISTA DE LIVRO FÍSICO --> 
+<!-- FIM DA LISTA DE LIVRO FÍSICO --> <!-- FIM DA LISTA DE LIVRO FÍSICO --> <!-- FIM DA LISTA DE LIVRO FÍSICO -->
+<!-- FIM DA LISTA DE LIVRO FÍSICO --> <!-- FIM DA LISTA DE LIVRO FÍSICO --> <!-- FIM DA LISTA DE LIVRO FÍSICO -->
+
+                      </div>
+                      </li>
+                      <li>
+                      <div>
+                        <div class="main-list">
+                          <span class="title">E-Book
+                          </span>
+                          </div>
+                          <div class="livro-fisico">
+                            <img src="assets/images/bia.png" alt="Bia quer ser fada - Josy Souza">
+                            <p class="small">⠀⠀⠀⠀⠀⠀⠀⠀⠀</p>
+                            <div class="titulo">Bia quer ser fada</div>
+                            <div class="autor">Josy Souza</div>
+                            <p class="small">⠀⠀⠀⠀⠀⠀⠀⠀⠀</p><p class="small">⠀⠀⠀⠀⠀⠀⠀⠀⠀</p><p class="small">⠀⠀⠀⠀⠀⠀⠀⠀⠀</p><p class="small">⠀⠀⠀⠀⠀⠀⠀⠀⠀</p>
+                            <div class="preco">R$ 5,90</div>
+                            <!-- <a href="#" class="botao-pix">PIX</a> -->
+                            <a href="https://a.co/d/7rKNgUq" class="botao-pagseguro" target="_blank">Comprar</a>
+                          </div>
+                          <div class="livro-fisico">
+                            <img src="assets/images/cuidado.png" alt="Cuidado com o que vem das águas - Josy Souza">
+                            <p class="small">⠀⠀⠀⠀⠀⠀⠀⠀⠀</p>
+                            <div class="titulo">Cuidado com o que vem das águas</div>
+                            <div class="autor">Josy Souza</div>
+                            <p class="small">⠀⠀⠀⠀⠀⠀⠀⠀⠀</p>
+                            <div class="preco">R$ 1,99</div>
+                            <!-- <a href="#" class="botao-pix">PIX</a> -->
+                            <a href="https://a.co/d/hmCSSdz" class="botao-pagseguro" target="_blank">Comprar</a>
+                          </div>
+                          <div class="livro-fisico">
+                            <img src="assets/images/dhammapada.png" alt="Dhammapada, as pegadas no caminho Budista - Emerson Pawoski">
+                            <p class="small">⠀⠀⠀⠀⠀⠀⠀⠀⠀</p>
+                            <div class="titulo">Dhammapada, as pegadas no caminho Budista</div>
+                            <div class="autor">Emerson Pawoski</div>
+                            <p class="small">⠀⠀⠀⠀⠀⠀⠀⠀⠀</p>
+                            <div class="preco">R$ 2,50</div>
+                            <!-- <a href="#" class="botao-pix">PIX</a> -->
+                            <a href="https://a.co/d/1JaNJMS" class="botao-pagseguro" target="_blank">Comprar</a>
+                          </div>
+                         <!-- <div class="livro-fisico">
+                            <img src="assets/images/fundamentos.png" alt="Livro Físico 1">
+                            <p class="small">⠀⠀⠀⠀⠀⠀⠀⠀⠀</p>
+                            <div class="titulo">Fundamentos da Logística</div>
+                            <div class="autor">Nicholas Nogueira</div>
+                            <p class="small">⠀⠀⠀⠀⠀⠀⠀⠀⠀</p><p class="small">⠀⠀⠀⠀⠀⠀⠀⠀⠀</p><p class="small">⠀⠀⠀⠀⠀⠀⠀⠀⠀</p><p class="small">⠀⠀⠀⠀⠀⠀⠀⠀⠀</p>
+                            <div class="preco">R$ 99,99</div>
+                            <a href="#" class="botao-pix">PIX</a>
+                            <a href="#" class="botao-pagseguro">PagSeguro</a>
+                          </div> -->
+                          <div class="livro-fisico">
+                            <img src="assets/images/nosso.png" alt="Nosso livro - Josy Souza">
+                            <p class="small">⠀⠀⠀⠀⠀⠀⠀⠀⠀</p>
+                            <div class="titulo">Nosso livro</div>
+                            <div class="autor">Josy Souza</div>
+                            <p class="small">⠀⠀⠀⠀⠀⠀⠀⠀⠀</p><p class="small">⠀⠀⠀⠀⠀⠀⠀⠀⠀</p><p class="small">⠀⠀⠀⠀⠀⠀⠀⠀⠀</p><p class="small">⠀⠀⠀⠀⠀⠀⠀⠀⠀</p>
+                            <div class="preco">R$ 1,99</div>
+                            <!-- <a href="#" class="botao-pix">PIX</a> -->
+                            <a href="https://a.co/d/8pVyyBN" class="botao-pagseguro" target="_blank">Comprar</a>
+                            </div>
+                            <div class="livro-fisico">
+                            <img src="assets/images/patrulheiro.png" alt="Conspiração em Literária: O Patrulheiro Literário - Vinícius Lima Costa">
+                            <p class="small">⠀⠀⠀⠀⠀⠀⠀⠀⠀</p>
+                            <div class="titulo">Conspiração em Literária: O Patrulheiro Literário</div>
+                            <div class="autor">Vinícius Lima Costa</div>
+                            <p class="small">⠀⠀⠀⠀⠀⠀⠀⠀⠀</p>
+                            <div class="preco">R$ 10,90</div>
+                            <!-- <a href="#" class="botao-pix">PIX</a> -->
+                            <a href="https://a.co/d/8qy36fK" class="botao-pagseguro" target="_blank">Comprar</a>
+                            </div>
+                            <div class="livro-fisico">
+                            <img src="assets/images/pintura.png" alt="A Pintura Popular - Roberto Salgado de Carvalho">
+                            <p class="small">⠀⠀⠀⠀⠀⠀⠀⠀⠀</p>
+                            <div class="titulo">A Pintura Popular</div>
+                            <div class="autor">Roberto Salgado de Carvalho</div>
+                            <p class="small">⠀⠀⠀⠀⠀⠀⠀⠀⠀</p><p class="small">⠀⠀⠀⠀⠀⠀⠀⠀⠀</p><p class="small">⠀⠀⠀⠀⠀⠀⠀⠀⠀</p><p class="small">⠀⠀⠀⠀⠀⠀⠀⠀⠀</p>
+                            <div class="preco">R$ 5,99</div>
+                            <!-- <a href="#" class="botao-pix">PIX</a> -->
+                            <a href="https://a.co/d/eMQQm9m" class="botao-pagseguro" target="_blank">Comprar</a>
+                            </div>
+                            <div class="livro-fisico">
+                            <img src="assets/images/segredos.png" alt="Segredos, Sussurros e Escarros - Carlos Nunes">
+                            <p class="small">⠀⠀⠀⠀⠀⠀⠀⠀⠀</p>
+                            <div class="titulo">Segredos, Sussurros e Escarros</div>
+                            <div class="autor">Carlos Nunes</div>
+                            <p class="small">⠀⠀⠀⠀⠀⠀⠀⠀⠀</p>
+                            <div class="preco">R$ 19,35</div>
+                            <!-- <a href="#" class="botao-pix">PIX</a> -->
+                            <a href="https://a.co/d/ikO7FQC" class="botao-pagseguro" target="_blank">Comprar</a>
+                          </div>
+                        </div>
+                      </div>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+  </section>
+
+  <section class="partners">
+    
+  </section>
+  <footer>
+    <div class="contato">
+      <div><i class="fas fa-clock"></i> Horário de Atendimento:<br> Seg-Sex 9h às 19h / Sábado 9h às 13h</div>
+      <div><i class="fas fa-phone"></i> Whatsapp: (15) 99703-0639</div>
+      <div><i class="fas fa-envelope"></i> E-mail: contato@codiceeditorial.com.br</div>
+    </div>
+
+    <div class="formas-pagamento">
+      <div class="formas-pagamento-title">Formas de Pagamento</div>
+      <div class="formas-pagamento-images">
+        <img src="assets/images/visa.png" alt="Forma de Pagamento 1">
+        <img src="assets/images/elo.png" alt="Forma de Pagamento 2">
+        <img src="assets/images/master.png" alt="Forma de Pagamento 3">
+        <img src="assets/images/pix.png" alt="Forma de Pagamento 4">
+        <img src="assets/images/boleto.png" alt="Forma de Pagamento 5">
+            </div>
+    </div>
+    <div class="redes-sociais">
+      <div class="redes-sociais-title">Redes Sociais</div>
+      <div class="redes-sociais-images">
+      <a href="https://www.instagram.com/editorialcodice/" target="_blank"><img src="assets/images/insta.png" alt="Rede Social 1"></a>
+      <a href="https://www.facebook.com/profile.php?id=100090308298864" target="_blank"><img src="assets/images/face.png" alt="Rede Social 2"></a>
+      <!-- Adicione mais links para as suas redes sociais -->
+    </div>
+  
+</footer>
+  <script>
+    // Obtém todos os elementos das abas
+    const tabItems = document.querySelectorAll('.menu .gradient-border');
+    const tabContentItems = document.querySelectorAll('.nacc li');
+    // Adiciona um evento de clique a cada elemento da aba
+    tabItems.forEach((tab, index) => {
+      tab.addEventListener('click', () => {
+        // Remove a classe 'active' de todas as abas e itens de conteúdo
+        tabItems.forEach((tab) => tab.classList.remove('active'));
+        tabContentItems.forEach((item) => item.classList.remove('active'));
+        // Adiciona a classe 'active' apenas ao item de aba e conteúdo correspondentes ao clique atual
+        tab.classList.add('active');
+        tabContentItems[index].classList.add('active');
+      });
+    });
+  </script>
+
+<script>
+  function abrirPopup(imagem, titulo, sinopse, dadosTecnicos, preco, linkCompra) {
+  var detalhesPopup = document.getElementById("popup");
+  detalhesPopup.style.display = "block";
+  detalhesPopup.style.opacity = "1"; // Define a opacidade como 1
+  var overlay = document.querySelector(".overlay");
+  overlay.style.display = "block";
+
+  // Preencher as informações do livro no popup
+  document.getElementById("imagem-livro").src = imagem;
+  document.getElementById("titulo-livro").textContent = titulo;
+  document.getElementById("sinopse-livro").innerHTML = sinopse;
+  document.getElementById("dados-tecnicos-livro").innerHTML = dadosTecnicos;
+  document.getElementById("preco-livro").innerHTML = preco + "<br><a href='" + linkCompra + "' class='botao-pagseguro' target='_blank'>Comprar</a>";
+}
+
+function fecharPopup() {
+  var detalhesPopup = document.getElementById("popup");
+  detalhesPopup.style.opacity = "0"; // Define a opacidade como 0
+  var overlay = document.querySelector(".overlay");
+
+  setTimeout(function() {
+    detalhesPopup.style.display = "none"; // Define o display como "none" após um pequeno atraso
+    overlay.style.display = "none";
+  }, 300); // Ajuste o tempo de espera conforme necessário
+}
+
+function mostrarDetalhes() {
+  var detalhesPopup = document.getElementById("popup");
+  detalhesPopup.style.display = "block";
+  detalhesPopup.style.opacity = "1"; // Define a opacidade como 1
+  var overlay = document.querySelector(".overlay");
+  overlay.style.display = "block";
+}
+
+
+</script>
+  
+
+  </body>
+  </html>
